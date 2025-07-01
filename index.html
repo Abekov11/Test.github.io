@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Болашак Колледж</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+</head>
+<body>
+    <!-- Небо с солнцем и луной -->
+    <div class="sky">
+        <div class="sun-container">
+            <div class="sun"></div>
+        </div>
+        <div class="moon-container">
+            <div class="moon"></div>
+        </div>
+    </div>
+    
+    <!-- Прелоадер -->
+    <div class="preloader" id="preloader">
+        <div class="loading">
+            <svg width="64px" height="48px">
+                <polyline points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24" id="back"></polyline>
+                <polyline points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24" id="front"></polyline>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Звездный фон -->
+    <div id="starfield"></div>
+    
+    <!-- Навигация -->
+    <nav>
+        <div class="logo">
+            <i class="fas fa-graduation-cap logo-icon"></i>
+            <span class="logo-text">Болашак Колледж</span>
+        </div>
+        <div class="nav-links">
+            <a href="#" class="nav-link active" data-page="home">Главная</a>
+            <a href="#" class="nav-link" data-page="about">О колледже</a>
+            <a href="#" class="nav-link" data-page="contact">Контакты</a>
+            
+            <!-- Переключатель языка -->
+            <div class="language-toggle">
+                <button id="language-toggle" class="language-btn">
+                    <span class="lang-icon">RU</span>
+                    <span class="lang-text">Русский</span>
+                </button>
+                <div class="language-dropdown">
+                    <button data-lang="ru">Русский</button>
+                    <button data-lang="kk">Қазақша</button>
+                    <button data-lang="en">English</button>
+                </div>
+            </div>
+            
+            <!-- Переключатель темы с иконками -->
+            <div class="theme-toggle-container">
+                <button id="theme-toggle" class="theme-toggle">
+                    <div class="theme-icon sun">
+                        <i class="fas fa-sun"></i>
+                    </div>
+                    <div class="theme-icon moon">
+                        <i class="fas fa-moon"></i>
+                    </div>
+                    <div class="theme-toggle-circle"></div>
+                </button>
+            </div>
+            
+            <!-- Бургер-меню -->
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Боковое меню -->
+    <div class="sidebar-menu">
+        <button class="close-menu-btn">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="menu-items">
+            <a href="#" class="nav-link" data-page="specialties">Специальности</a>
+            <a href="#" class="nav-link" data-page="students">Студентам</a>
+            <a href="#" class="nav-link" data-page="enrollee">Абитуриентам</a>
+            <a href="#" class="nav-link" data-page="teachers">Преподаватели</a>
+            <a href="#" class="nav-link" data-page="news">Новости</a>
+            <a href="#" class="nav-link" data-page="gallery">Галерея</a>
+            <a href="#" class="nav-link" data-page="admin">Админ</a>
+            <a href="#" class="nav-link" id="open-chat-menu">ИИ-чат</a>
+        </div>
+    </div>
+    <div class="sidebar-overlay"></div>
+
+    <!-- Герой-секция -->
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Болашак Колледж</h1>
+            <p>Качественное образование, современные технологии и подготовка специалистов востребованных профессий</p>
+            <a href="#" class="btn" data-page="enrollee">Подать заявку</a>
+        </div>
+        <div id="earth-container"></div>
+    </div>
+
+    <!-- Рекламный баннер -->
+    <div class="ad-banner">
+        <div class="banner-content">
+            <h3>Специальное предложение</h3>
+            <p>Скидка 20% на первый семестр для новых студентов!</p>
+            <a href="#" class="btn banner-btn" data-page="enrollee">Узнать подробности</a>
+        </div>
+    </div>
+
+    <!-- Кнопка ИИ-чата -->
+    <div class="ai-chat-btn" id="ai-chat-btn">
+        <i class="fas fa-robot"></i>
+        <span>ИИ-помощник</span>
+    </div>
+
+    <!-- Интерфейс ИИ-чата -->
+    <div class="ai-chat-container" id="ai-chat">
+        <div class="chat-header">
+            <h3>ИИ-помощник Болашак</h3>
+            <button id="close-chat"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="message ai-message">
+                <div class="avatar"><i class="fas fa-robot"></i></div>
+                <div class="text">Привет! Я ваш ИИ-помощник. Чем могу помочь?</div>
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="user-input" placeholder="Задайте ваш вопрос...">
+            <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <!-- Страница: Главная -->
+    <div id="home" class="page active">
+        <h2 class="page-title">Добро пожаловать в Болашак Колледж</h2>
+        <div class="welcome-content">
+            <p>Болашак Колледж - современное образовательное учреждение, предоставляющее качественное профессиональное образование по востребованным специальностям.</p>
+            <p>Наша миссия - подготовка высококвалифицированных специалистов, способных к профессиональному росту и адаптации в условиях современной экономики.</p>
+            <div class="welcome-features">
+                <div class="feature">
+                    <i class="fas fa-user-graduate"></i>
+                    <h3>5000+ выпускников</h3>
+                    <p>Успешно работают по специальности</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <h3>50+ преподавателей</h3>
+                    <p>Высококвалифицированные специалисты</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-building"></i>
+                    <h3>Современный кампус</h3>
+                    <p>Оснащенный новейшим оборудованием</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Страница: О колледже -->
+    <div id="about" class="page">
+        <h2 class="page-title">О Болашак Колледже</h2>
+        <div class="about-container">
+            <div class="about-history">
+                <h3>Наша история</h3>
+                <p>Основанный в 1995 году, Болашак Колледж за время своего существования подготовил тысячи квалифицированных специалистов в различных отраслях.</p>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">1995</div>
+                        <div class="timeline-content">
+                            <h4>Основание колледжа</h4>
+                            <p>Открытие первых специальностей: программирование и бухгалтерский учет</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">2005</div>
+                        <div class="timeline-content">
+                            <h4>Новое здание</h4>
+                            <p>Переезд в современное здание с новыми лабораториями и классами</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">2015</div>
+                        <div class="timeline-content">
+                            <h4>Международное признание</h4>
+                            <p>Аккредитация образовательных программ международными организациями</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">2023</div>
+                        <div class="timeline-content">
+                            <h4>Цифровая трансформация</h4>
+                            <p>Внедрение современных цифровых технологий в образовательный процесс</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="about-mission">
+                <h3>Миссия и ценности</h3>
+                <p>Наша миссия - предоставление доступного и качественного образования, соответствующего международным стандартам и требованиям рынка труда.</p>
+                
+                <div class="values">
+                    <div class="value-card">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h4>Качество образования</h4>
+                        <p>Соответствие программ международным стандартам</p>
+                    </div>
+                    <div class="value-card">
+                        <i class="fas fa-users"></i>
+                        <h4>Студентоцентрированность</h4>
+                        <p>Индивидуальный подход к каждому обучающемуся</p>
+                    </div>
+                    <div class="value-card">
+                        <i class="fas fa-lightbulb"></i>
+                        <h4>Инновации</h4>
+                        <p>Внедрение передовых образовательных технологий</p>
+                    </div>
+                    <div class="value-card">
+                        <i class="fas fa-handshake"></i>
+                        <h4>Партнерство</h4>
+                        <p>Сотрудничество с ведущими компаниями и вузами</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="about-leadership">
+                <h3>Руководство</h3>
+                <div class="leaders">
+                    <div class="leader">
+                        <div class="leader-photo">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h4>Айгуль Сапарова</h4>
+                        <p>Директор колледжа</p>
+                        <p>Доктор педагогических наук</p>
+                    </div>
+                    <div class="leader">
+                        <div class="leader-photo">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <h4>Марат Жумабаев</h4>
+                        <p>Заместитель директора по учебной работе</p>
+                        <p>Кандидат технических наук</p>
+                    </div>
+                    <div class="leader">
+                        <div class="leader-photo">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <h4>Гульнара Искакова</h4>
+                        <p>Заместитель директора по научной работе</p>
+                        <p>Кандидат экономических наук</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Страница: Специальности -->
+    <div id="specialties" class="page">
+        <h2 class="page-title">Специальности</h2>
+        <div class="specialties-container">
+            <div class="specialty-category">
+                <h3>Технические специальности</h3>
+                <div class="specialty-list">
+                    <div class="specialty-card">
+                        <div class="specialty-icon">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <div class="specialty-info">
+                            <h4>Информационные системы</h4>
+                            <p>Квалификация: Техник-программист</p>
+                            <p>Срок обучения: 3 года 10 месяцев</p>
+                            <div class="specialty-buttons">
+                                <button class="btn specialty-detail-btn">Подробнее</button>
+                                <button class="btn outline apply-btn">Подать заявку</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="specialty-card">
+                        <div class="specialty-icon">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <div class="specialty-info">
+                            <h4>Компьютерные сети</h4>
+                            <p>Квалификация: Сетевой администратор</p>
+                            <p>Срок обучения: 3 года 10 месяцев</p>
+                            <div class="specialty-buttons">
+                                <button class="btn specialty-detail-btn">Подробнее</button>
+                                <button class="btn outline apply-btn">Подать заявку</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="specialty-category">
+                <h3>Экономические специальности</h3>
+                <div class="specialty-list">
+                    <div class="specialty-card">
+                        <div class="specialty-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <div class="specialty-info">
+                            <h4>Бухгалтерский учет</h4>
+                            <p>Квалификация: Бухгалтер</p>
+                            <p>Срок обучения: 2 года 10 месяцев</p>
+                            <div class="specialty-buttons">
+                                <button class="btn specialty-detail-btn">Подробнее</button>
+                                <button class="btn outline apply-btn">Подать заявку</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="specialty-card">
+                        <div class="specialty-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="specialty-info">
+                            <h4>Финансы</h4>
+                            <p>Квалификация: Финансист</p>
+                            <p>Срок обучения: 2 года 10 месяцев</p>
+                            <div class="specialty-buttons">
+                                <button class="btn specialty-detail-btn">Подробнее</button>
+                                <button class="btn outline apply-btn">Подать заявку</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="specialty-category">
+                <h3>Педагогические специальности</h3>
+                <div class="specialty-list">
+                    <div class="specialty-card">
+                        <div class="specialty-icon">
+                            <i class="fas fa-child"></i>
+                        </div>
+                        <div class="specialty-info">
+                            <h4>Дошкольное образование</h4>
+                            <p>Квалификация: Воспитатель</p>
+                            <p>Срок обучения: 3 года 10 месяцев</p>
+                            <div class="specialty-buttons">
+                                <button class="btn specialty-detail-btn">Подробнее</button>
+                                <button class="btn outline apply-btn">Подать заявку</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="specialty-card">
+                        <div class="specialty-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="specialty-info">
+                            <h4>Начальное образование</h4>
+                            <p>Квалификация: Учитель начальных классов</p>
+                            <p>Срок обучения: 3 года 10 месяцев</p>
+                            <div class="specialty-buttons">
+                                <button class="btn specialty-detail-btn">Подробнее</button>
+                                <button class="btn outline apply-btn">Подать заявку</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Страница: Студентам -->
+    <div id="students" class="page">
+        <h2 class="page-title">Студентам</h2>
+        <div class="students-container">
+            <div class="student-section">
+                <h3>Расписание занятий</h3>
+                <div class="schedule-container">
+                    <div class="schedule-controls">
+                        <button class="btn schedule-prev"><i class="fas fa-chevron-left"></i></button>
+                        <span class="schedule-date">Сентябрь 2023</span>
+                        <button class="btn schedule-next"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <div class="schedule-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Время</th>
+                                    <th>Понедельник</th>
+                                    <th>Вторник</th>
+                                    <th>Среда</th>
+                                    <th>Четверг</th>
+                                    <th>Пятница</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>9:00-10:30</td>
+                                    <td>Математика (ауд. 301)</td>
+                                    <td>Программирование (ауд. 205)</td>
+                                    <td>Физика (ауд. 102)</td>
+                                    <td>Базы данных (ауд. 301)</td>
+                                    <td>Иностранный язык (ауд. 105)</td>
+                                </tr>
+                                <tr>
+                                    <td>10:40-12:10</td>
+                                    <td>Английский язык (ауд. 105)</td>
+                                    <td>Сетевые технологии (ауд. 210)</td>
+                                    <td>История Казахстана (ауд. 201)</td>
+                                    <td>Веб-разработка (ауд. 205)</td>
+                                    <td>Физическая культура (спортзал)</td>
+                                </tr>
+                                <tr>
+                                    <td>12:20-13:50</td>
+                                    <td>Программирование (лаб. 305)</td>
+                                    <td>Математика (ауд. 301)</td>
+                                    <td>Программирование (лаб. 305)</td>
+                                    <td>Сетевые технологии (лаб. 210)</td>
+                                    <td>Базы данных (лаб. 305)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="student-section">
+                <h3>Учебные материалы</h3>
+                <div class="materials-list">
+                    <div class="material-card">
+                        <div class="material-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="material-info">
+                            <h4>Программирование на Python</h4>
+                            <p>Лекции, практические задания и примеры кода</p>
+                            <button class="btn download-btn"><i class="fas fa-download"></i> Скачать</button>
+                        </div>
+                    </div>
+                    <div class="material-card">
+                        <div class="material-icon">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <div class="material-info">
+                            <h4>Базы данных. Теоретические основы</h4>
+                            <p>Учебное пособие по курсу баз данных</p>
+                            <button class="btn download-btn"><i class="fas fa-download"></i> Скачать</button>
+                        </div>
+                    </div>
+                    <div class="material-card">
+                        <div class="material-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <div class="material-info">
+                            <h4>Веб-разработка. Видеокурс</h4>
+                            <p>20 видеоуроков по основам веб-разработки</p>
+                            <button class="btn download-btn"><i class="fas fa-play-circle"></i> Смотреть</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="student-section">
+                <h3>Студенческая жизнь</h3>
+                <div class="student-life">
+                    <div class="life-card">
+                        <div class="life-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h4>Студенческие клубы</h4>
+                        <p>Технические, творческие и спортивные сообщества</p>
+                    </div>
+                    <div class="life-card">
+                        <div class="life-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <h4>Спортивные секции</h4>
+                        <p>Футбол, баскетбол, волейбол, настольный теннис</p>
+                    </div>
+                    <div class="life-card">
+                        <div class="life-icon">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <h4>Творческие коллективы</h4>
+                        <p>Танцевальные ансамбли, вокальные группы, театр</p>
+                    </div>
+                    <div class="life-card">
+                        <div class="life-icon">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <h4>Карьерные мероприятия</h4>
+                        <p>Ярмарки вакансий, встречи с работодателями</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Страница: Абитуриентам -->
+    <div id="enrollee" class="page">
+        <h2 class="page-title">Абитуриентам</h2>
+        <div class="enrollee-container">
+            <div class="enrollee-section">
+                <h3>Как поступить</h3>
+                <div class="steps">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h4>Выберите специальность</h4>
+                        <p>Ознакомьтесь с перечнем специальностей и выберите подходящую</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h4>Подайте документы</h4>
+                        <p>Подготовьте необходимый пакет документов</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h4>Пройдите вступительные испытания</h4>
+                        <p>Сдайте тесты или экзамены по выбранной специальности</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <h4>Зачислитесь на обучение</h4>
+                        <p>Получите приказ о зачислении и приступайте к учебе</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="enrollee-section">
+                <h3>Необходимые документы</h3>
+                <div class="documents-list">
+                    <ul>
+                        <li>Заявление на имя директора колледжа</li>
+                        <li>Документ об образовании (оригинал и копия)</li>
+                        <li>Медицинская справка формы 086-У</li>
+                        <li>6 фотографий 3x4 см</li>
+                        <li>Копия удостоверения личности</li>
+                        <li>Копия свидетельства ИИН</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="enrollee-section" id="enrollee-form-section">
+                <h3>Приемная комиссия</h3>
+                <div class="commission-info">
+                    <div class="commission-card">
+                        <h4>Контакты</h4>
+                        <p><i class="fas fa-phone"></i> +7 (777) 123-45-67</p>
+                        <p><i class="fas fa-envelope"></i> admission@bolashak.edu</p>
+                        <p><i class="fas fa-clock"></i> Пн-Пт: 9:00-18:00</p>
+                        <p><i class="fas fa-map-marker-alt"></i> Административный корпус, каб. 101</p>
+                    </div>
+                    <div class="commission-card">
+                        <h4>Онлайн-заявка</h4>
+                        <form class="enrollee-form">
+                            <div class="form-group">
+                                <input type="text" placeholder="ФИО" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="tel" placeholder="Телефон" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" placeholder="Email" required>
+                            </div>
+                            <div class="form-group">
+                                <select required>
+                                    <option value="" disabled selected>Выберите специальность</option>
+                                    <option>Информационные системы</option>
+                                    <option>Компьютерные сети</option>
+                                    <option>Бухгалтерский учет</option>
+                                    <option>Финансы</option>
+                                    <option>Дошкольное образование</option>
+                                    <option>Начальное образование</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn">Отправить заявку</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Страница: Преподаватели -->
+    <div id="teachers" class="page">
+        <h2 class="page-title">Преподаватели</h2>
+        <div class="teachers-container">
+            <div class="teachers-departments">
+                <h3>Кафедры</h3>
+                <div class="department-list">
+                    <button class="department-btn active" data-department="all">Все преподаватели</button>
+                    <button class="department-btn" data-department="it">Информационные технологии</button>
+                    <button class="department-btn" data-department="economics">Экономика и учет</button>
+                    <button class="department-btn" data-department="pedagogy">Педагогика</button>
+                    <button class="department-btn" data-department="general">Общеобразовательные дисциплины</button>
+                </div>
+            </div>
+            
+            <div class="teachers-grid">
+                <div class="teacher-card" data-department="it">
+                    <div class="teacher-photo">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="teacher-info">
+                        <h4>Асхат Каримов</h4>
+                        <p>Доцент, кандидат технических наук</p>
+                        <p>Преподаваемые дисциплины: Программирование, Алгоритмы</p>
+                        <p>Стаж: 15 лет</p>
+                    </div>
+                </div>
+                <div class="teacher-card" data-department="it">
+                    <div class="teacher-photo">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="teacher-info">
+                        <h4>Айгерим Смагулова</h4>
+                        <p>Старший преподаватель</p>
+                        <p>Преподаваемые дисциплины: Веб-разработка, UX/UI дизайн</p>
+                        <p>Стаж: 8 лет</p>
+                    </div>
+                </div>
+                <div class="teacher-card" data-department="economics">
+                    <div class="teacher-photo">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="teacher-info">
+                        <h4>Галия Нургалиева</h4>
+                        <p>Доцент, кандидат экономических наук</p>
+                        <p>Преподаваемые дисциплины: Бухгалтерский учет, Аудит</p>
+                        <p>Стаж: 20 лет</p>
+                    </div>
+                </div>
+                <div class="teacher-card" data-department="economics">
+                    <div class="teacher-photo">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="teacher-info">
+                        <h4>Арман Жолдасов</h4>
+                        <p>Преподаватель высшей категории</p>
+                        <p>Преподаваемые дисциплины: Финансы, Банковское дело</p>
+                        <p>Стаж: 12 лет</p>
+                    </div>
+                </div>
+                <div class="teacher-card" data-department="pedagogy">
+                    <div class="teacher-photo">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="teacher-info">
+                        <h4>Сауле Ибраева</h4>
+                        <p>Доцент, кандидат педагогических наук</p>
+                        <p>Преподаваемые дисциплины: Дошкольная педагогика, Методики обучения</p>
+                        <p>Стаж: 18 лет</p>
+                    </div>
+                </div>
+                <div class="teacher-card" data-department="pedagogy">
+                    <div class="teacher-photo">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="teacher-info">
+                        <h4>Данияр Касымов</h4>
+                        <p>Преподаватель первой категории</p>
+                        <p>Преподаваемые дисциплины: Методика преподавания в начальной школе</p>
+                        <p>Стаж: 10 лет</p>
+                    </div>
+                </div>
+                <div class="teacher-card" data-department="general">
+                    <div class="teacher-photo">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="teacher-info">
+                        <h4>Марат Абдуллин</h4>
+                        <p>Преподаватель высшей категории</p>
+                        <p>Преподаваемые дисциплины: Математика, Физика</p>
+                        <p>Стаж: 22 года</p>
+                    </div>
+                </div>
+                <div class="teacher-card" data-department="general">
+                    <div class="teacher-photo">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="teacher-info">
+                        <h4>Жанна Петрова</h4>
+                        <p>Преподаватель</p>
+                        <p>Преподаваемые дисциплины: Английский язык</p>
+                        <p>Стаж: 9 лет</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Страница: Новости -->
+    <div id="news" class="page">
+        <h2 class="page-title">Новости</h2>
+        <div class="news-container">
+            <div class="news-filters">
+                <button class="filter-btn active" data-filter="all">Все новости</button>
+                <button class="filter-btn" data-filter="education">Образование</button>
+                <button class="filter-btn" data-filter="student-life">Студенческая жизнь</button>
+                <button class="filter-btn" data-filter="sport">Спорт</button>
+                <button class="filter-btn" data-filter="events">Мероприятия</button>
+            </div>
+            
+            <div class="news-grid">
+                <div class="news-card" data-category="education">
+                    <div class="news-image">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="news-content">
+                        <div class="news-date">15 сентября 2023</div>
+                        <h3>Открытие нового компьютерного класса</h3>
+                        <p>В колледже открылся современный компьютерный класс, оснащенный новейшей техникой для обучения программированию...</p>
+                        <a href="#" class="btn">Читать далее</a>
+                    </div>
+                </div>
+                <div class="news-card" data-category="sport">
+                    <div class="news-image">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="news-content">
+                        <div class="news-date">10 сентября 2023</div>
+                        <h3>Победа в чемпионате по программированию</h3>
+                        <p>Команда колледжа заняла первое место в региональном чемпионате по спортивному программированию среди студентов колледжей...</p>
+                        <a href="#" class="btn">Читать далее</a>
+                    </div>
+                </div>
+                <div class="news-card" data-category="events">
+                    <div class="news-image">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="news-content">
+                        <div class="news-date">5 сентября 2023</div>
+                        <h3>День знаний 2023</h3>
+                        <p>Торжественная линейка, посвященная Дню знаний, собрала более 500 студентов первого курса...</p>
+                        <a href="#" class="btn">Читать далее</a>
+                    </div>
+                </div>
+                <div class="news-card" data-category="student-life">
+                    <div class="news-image">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div class="news-content">
+                        <div class="news-date">1 сентября 2023</div>
+                        <h3>Ярмарка вакансий для выпускников</h3>
+                        <p>Колледж организовал ярмарку вакансий, на которой ведущие компании региона представили возможности трудоустройства...</p>
+                        <a href="#" class="btn">Читать далее</a>
+                    </div>
+                </div>
+                <div class="news-card" data-category="education">
+                    <div class="news-image">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="news-content">
+                        <div class="news-date">28 августа 2023</div>
+                        <h3>Новые образовательные программы</h3>
+                        <p>В новом учебном году колледж запускает две новые специальности: "Кибербезопасность" и "Цифровой маркетинг"...</p>
+                        <a href="#" class="btn">Читать далее</a>
+                    </div>
+                </div>
+                <div class="news-card" data-category="events">
+                    <div class="news-image">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <div class="news-content">
+                        <div class="news-date">20 августа 2023</div>
+                        <h3>Фестиваль студенческого творчества</h3>
+                        <p>В колледже прошел ежегодный фестиваль студенческого творчества, в котором приняли участие более 200 студентов...</p>
+                        <a href="#" class="btn">Читать далее</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="news-pagination">
+                <button class="pagination-btn active">1</button>
+                <button class="pagination-btn">2</button>
+                <button class="pagination-btn">3</button>
+                <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Страница: Галерея -->
+<div id="gallery" class="page">
+    <h2 class="page-title">Галерея</h2>
+    <div class="gallery-container">
+        <div class="gallery-categories">
+            <button class="category-btn active" data-category="all">Все фото</button>
+            <button class="category-btn" data-category="events">Мероприятия</button>
+            <button class="category-btn" data-category="study">Учебный процесс</button>
+            <button class="category-btn" data-category="sport">Спорт</button>
+            <button class="category-btn" data-category="art">Творчество</button>
+            <button class="category-btn" data-category="graduates">Выпускники</button>
+        </div>
+        
+        <div class="gallery-grid">
+            <!-- Фото 1 -->
+            <div class="gallery-item" data-category="events">
+                <div class="gallery-image" style="background-image: url('photos/WhatsApp%20Image%202025-06-29%20at%2015.48.54%20(38).jpeg')"></div>
+                <div class="gallery-info">
+                    <h4>Церемония награждения</h4>
+                    <p>29 июня 2025</p>
+                </div>
+            </div>
+            
+            <!-- Фото 2 -->
+            <div class="gallery-item" data-category="study">
+                <div class="gallery-image" style="background-image: url('photos/WhatsApp%20Image%202025-06-29%20at%2015.48.54%20(39).jpeg')"></div>
+                <div class="gallery-info">
+                    <h4>Учебная лаборатория</h4>
+                    <p>29 июня 2025</p>
+                </div>
+            </div>
+            
+            <!-- Фото 3 -->
+            <div class="gallery-item" data-category="graduates">
+                <div class="gallery-image" style="background-image: url('photos/WhatsApp%20Image%202025-06-29%20at%2015.48.54%20(49).jpeg')"></div>
+                <div class="gallery-info">
+                    <h4>Выпускной вечер</h4>
+                    <p>29 июня 2025</p>
+                </div>
+            </div>
+            
+            <!-- Фото 4 -->
+            <div class="gallery-item" data-category="study">
+                <div class="gallery-image" style="background-image: url('photos/WhatsApp%20Image%202025-06-29%20at%2015.48.54%20(27).jpeg')"></div>
+                <div class="gallery-info">
+                    <h4>Семинар преподавателей</h4>
+                    <p>29 июня 2025</p>
+                </div>
+            </div>
+            
+            <!-- Фото 5 -->
+            <div class="gallery-item" data-category="events">
+                <div class="gallery-image" style="background-image: url('photos/WhatsApp%20Image%202025-06-29%20at%2015.48.54%20(28).jpeg')"></div>
+                <div class="gallery-info">
+                    <h4>Конференция "Жұмысшы мамандықтар"</h4>
+                    <p>29 июня 2025</p>
+                </div>
+            </div>
+            
+            <!-- Фото 6 -->
+            <div class="gallery-item" data-category="events">
+                <div class="gallery-image" style="background-image: url('photos/WhatsApp%20Image%202025-06-29%20at%2015.48.54%20(37).jpeg')"></div>
+                <div class="gallery-info">
+                    <h4>Торжественное собрание</h4>
+                    <p>29 июня 2025</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Страница: Контакты -->
+    <div id="contact" class="page">
+        <h2 class="page-title">Контакты</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>Наши контакты</h3>
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Адрес</h4>
+                            <p>ул. Айтеке би, 45<br>Административный корпус, каб. 101</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Телефон</h4>
+                            <p>+7 (7242) 55-55-55 (приемная комиссия)</p>
+                            <p>+7 (7242) 56-56-56 (секретариат)</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p>info@bolashak-college.kz (общие вопросы)</p>
+                            <p>admission@bolashak-college.kz (приемная комиссия)</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h4>Часы работы</h4>
+                            <p>Понедельник-Пятница: 8:00 - 18:00</p>
+                            <p>Суббота: 9:00 - 14:00</p>
+                            <p>Воскресенье: выходной</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="social-links">
+                    <h4>Мы в социальных сетях</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-vk"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="map-container">
+                <h3>Как нас найти</h3>
+                <div class="map-placeholder">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <h4>Карта расположения колледжа</h4>
+                    <p>Для просмотра карты включите JavaScript в вашем браузере</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Страница: Админ-панель -->
+    <div id="admin" class="page">
+        <h2 class="page-title">Админ-панель</h2>
+        <div class="admin-panel">
+            <div class="admin-tabs">
+                <button class="tab-btn active" data-tab="users">Пользователи</button>
+                <button class="tab-btn" data-tab="content">Контент</button>
+                <button class="tab-btn" data-tab="specialties-admin">Специальности</button>
+                <button class="tab-btn" data-tab="students-admin">Студентам</button>
+                <button class="tab-btn" data-tab="enrollee-admin">Абитуриентам</button>
+                <button class="tab-btn" data-tab="teachers-admin">Преподаватели</button>
+                <button class="tab-btn" data-tab="news-admin">Новости</button>
+                <button class="tab-btn" data-tab="gallery-admin">Галерея</button>
+                <button class="tab-btn" data-tab="settings">Настройки</button>
+            </div>
+            
+            <div class="tab-content active" id="users-tab">
+                <h3>Управление пользователями</h3>
+                <div class="admin-table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Имя</th>
+                                <th>Email</th>
+                                <th>Роль</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Айгуль Сапарова</td>
+                                <td>director@bolashak.kz</td>
+                                <td>Администратор</td>
+                                <td>
+                                    <button class="admin-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="admin-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Марат Жумабаев</td>
+                                <td>marat@bolashak.kz</td>
+                                <td>Модератор</td>
+                                <td>
+                                    <button class="admin-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="admin-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Гульнара Искакова</td>
+                                <td>gulnara@bolashak.kz</td>
+                                <td>Модератор</td>
+                                <td>
+                                    <button class="admin-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="admin-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="admin-form">
+                    <h3>Добавить пользователя</h3>
+                    <form id="add-user-form">
+                        <div class="form-group">
+                            <label for="username">Имя пользователя:</label>
+                            <input type="text" id="username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="role">Роль:</label>
+                            <select id="role" required>
+                                <option value="admin">Администратор</option>
+                                <option value="moderator">Модератор</option>
+                                <option value="teacher">Преподаватель</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn">Добавить</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="content-tab">
+                <h3>Управление контентом</h3>
+                <div class="content-editor">
+                    <div class="editor-header">
+                        <button class="btn"><i class="fas fa-plus"></i> Добавить новость</button>
+                        <button class="btn"><i class="fas fa-sync"></i> Обновить</button>
+                    </div>
+                    
+                    <div class="content-list">
+                        <div class="content-item">
+                            <h4>Открытие нового компьютерного класса</h4>
+                            <p>15 мая 2023 года | 345 просмотров</p>
+                            <div class="content-actions">
+                                <button class="admin-btn edit"><i class="fas fa-edit"></i> Редактировать</button>
+                                <button class="admin-btn publish"><i class="fas fa-check"></i> Опубликовать</button>
+                            </div>
+                        </div>
+                        <div class="content-item">
+                            <h4>Расписание экзаменов на зимнюю сессию</h4>
+                            <p>10 декабря 2023 года | 521 просмотр</p>
+                            <div class="content-actions">
+                                <button class="admin-btn edit"><i class="fas fa-edit"></i> Редактировать</button>
+                                <button class="admin-btn publish"><i class="fas fa-check"></i> Опубликовать</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Вкладка управления специальностями -->
+            <div class="tab-content" id="specialties-admin">
+                <h3>Управление специальностями</h3>
+                <div class="admin-form">
+                    <h4>Добавить специальность</h4>
+                    <form>
+                        <div class="form-group">
+                            <label>Название специальности:</label>
+                            <input type="text" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Категория:</label>
+                            <select required>
+                                <option>Технические</option>
+                                <option>Экономические</option>
+                                <option>Педагогические</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Квалификация:</label>
+                            <input type="text" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Срок обучения:</label>
+                            <input type="text" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Описание:</label>
+                            <textarea rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">Добавить</button>
+                    </form>
+                </div>
+                
+                <div class="admin-table-container">
+                    <h4>Список специальностей</h4>
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Название</th>
+                                <th>Категория</th>
+                                <th>Квалификация</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Информационные системы</td>
+                                <td>Технические</td>
+                                <td>Техник-программист</td>
+                                <td>
+                                    <button class="admin-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="admin-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Бухгалтерский учет</td>
+                                <td>Экономические</td>
+                                <td>Бухгалтер</td>
+                                <td>
+                                    <button class="admin-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="admin-btn delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Аналогичные вкладки для остальных разделов -->
+            <div class="tab-content" id="students-admin">
+                <h3>Управление разделом "Студентам"</h3>
+                <!-- Контент для управления разделом "Студентам" -->
+            </div>
+            
+            <div class="tab-content" id="enrollee-admin">
+                <h3>Управление разделом "Абитуриентам"</h3>
+                <!-- Контент для управления разделом "Абитуриентам" -->
+            </div>
+            
+            <div class="tab-content" id="teachers-admin">
+                <h3>Управление разделом "Преподаватели"</h3>
+                <!-- Контент для управления разделом "Преподаватели" -->
+            </div>
+            
+            <div class="tab-content" id="news-admin">
+                <h3>Управление новостями</h3>
+                <!-- Контент для управления новостями -->
+            </div>
+            
+            <div class="tab-content" id="gallery-admin">
+                <h3>Управление галереей</h3>
+                <!-- Контент для управления галереей -->
+            </div>
+            
+            <div class="tab-content" id="settings">
+                <h3>Настройки системы</h3>
+                <form class="settings-form">
+                    <div class="form-group">
+                        <label for="site-title">Название сайта:</label>
+                        <input type="text" id="site-title" value="Болашак Колледж">
+                    </div>
+                    <div class="form-group">
+                        <label for="theme">Цветовая тема:</label>
+                        <select id="theme">
+                            <option value="default">Красная (по умолчанию)</option>
+                            <option value="blue">Синяя</option>
+                            <option value="green">Зеленая</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="admin-email">Email администратора:</label>
+                        <input type="email" id="admin-email" value="admin@bolashak.kz">
+                    </div>
+                    <div class="form-group">
+                        <label>Уведомления:</label>
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox" checked> Новые пользователи
+                            </label>
+                            <label>
+                                <input type="checkbox" checked> Комментарии
+                            </label>
+                            <label>
+                                <input type="checkbox"> Обновления системы
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn">Сохранить настройки</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для админ-панели -->
+    <div class="admin-modal" id="admin-modal">
+        <div class="modal-content">
+            <h3 id="modal-title">Редактирование пользователя</h3>
+            <form id="admin-form">
+                <div class="form-group">
+                    <label for="edit-username">Имя пользователя:</label>
+                    <input type="text" id="edit-username" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-email">Email:</label>
+                    <input type="email" id="edit-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-role">Роль:</label>
+                    <select id="edit-role" required>
+                        <option value="admin">Администратор</option>
+                        <option value="moderator">Модератор</option>
+                        <option value="teacher">Преподаватель</option>
+                    </select>
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="btn cancel" id="cancel-edit">Отмена</button>
+                    <button type="submit" class="btn">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
